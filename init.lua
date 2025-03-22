@@ -26,6 +26,8 @@ end, { desc = "Restart" })
 vim.keymap.set("n", "<F6>", function()
   require("dap").pause()
 end, { desc = "Pause" })
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
+vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 
 vim.o.expandtab = true
 -- vim.o.tabstop = 4
@@ -46,6 +48,14 @@ local function is_wsl()
   return false
 end
 
+local function is_termux()
+  if vim.fn.has("unix") == 1 then
+    if os.getenv("TERMUX_VERSION") ~= nil then
+      return true
+    end
+  end
+end
+
 -- 在neovide中如果使用win32yank会有bug
 if not vim.g.neovide and is_wsl() then
   vim.g.clipboard = {
@@ -57,6 +67,21 @@ if not vim.g.neovide and is_wsl() then
     paste = {
       ["+"] = "win32yank.exe -o",
       ["*"] = "win32yank.exe -o",
+    },
+    cache_enabled = 0,
+  }
+end
+
+if not vim.g.neovide and is_termux() then
+  vim.g.clipboard = {
+    name = "TermuxClipboard",
+    copy = {
+      ["+"] = "termux-clipboard-set",
+      ["*"] = "termux-clipboard-set",
+    },
+    paste = {
+      ["+"] = "termux-clipboard-get",
+      ["*"] = "termux-clipboard-get",
     },
     cache_enabled = 0,
   }
@@ -89,7 +114,7 @@ if vim.g.neovide then
   })
 
   vim.g.neovide_refresh_rate = 60
-  vim.g.neovide_refresh_rate_idle = 5
+  vim.g.neovide_no_idle = true
   vim.g.neovide_fullscreen = false
   vim.g.neovide_title_background_color =
     string.format("%x", vim.api.nvim_get_hl(0, { id = vim.api.nvim_get_hl_id_by_name("Normal") }).bg)
