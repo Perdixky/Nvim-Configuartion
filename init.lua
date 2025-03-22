@@ -26,6 +26,8 @@ end, { desc = "Restart" })
 vim.keymap.set("n", "<F6>", function()
   require("dap").pause()
 end, { desc = "Pause" })
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
+vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 
 vim.o.expandtab = true
 -- vim.o.tabstop = 4
@@ -89,7 +91,8 @@ if vim.g.neovide then
   })
 
   vim.g.neovide_refresh_rate = 60
-  vim.g.neovide_refresh_rate_idle = 5
+  -- vim.g.neovide_refresh_rate_idle = 25
+  vim.g.neovide_no_idle = true
   vim.g.neovide_fullscreen = false
   vim.g.neovide_title_background_color =
     string.format("%x", vim.api.nvim_get_hl(0, { id = vim.api.nvim_get_hl_id_by_name("Normal") }).bg)
