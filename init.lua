@@ -88,20 +88,20 @@ local function is_termux()
 end
 
 -- 在neovide中如果使用win32yank会有bug
-if not vim.g.neovide and is_wsl() then
-  vim.g.clipboard = {
-    name = "WslClipboard",
-    copy = {
-      ["+"] = "win32yank.exe -i",
-      ["*"] = "win32yank.exe -i",
-    },
-    paste = {
-      ["+"] = "win32yank.exe -o",
-      ["*"] = "win32yank.exe -o",
-    },
-    cache_enabled = 0,
-  }
-end
+-- if not vim.g.neovide and is_wsl() then
+--   vim.g.clipboard = {
+--     name = "WslClipboard",
+--     copy = {
+--       ["+"] = "clip.exe",
+--       ["*"] = "clip.exe",
+--     },
+--     paste = {
+--       ["+"] = "powershell.exe -c Get-Clipboard",
+--       ["*"] = "powershell.exe -c Get-Clipboard",
+--     },
+--     cache_enabled = 0,
+--   }
+-- end
 
 if not vim.g.neovide and is_termux() then
   vim.g.clipboard = {
