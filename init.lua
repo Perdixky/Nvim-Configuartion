@@ -29,6 +29,37 @@ end, { desc = "Pause" })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
 vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 
+-- 在 ~/.config/nvim/lua/config/keymaps.lua 中添加
+local function setup_insert_navigation()
+  local nav_keys = {
+    ["<C-h>"] = "<Left>",
+    ["<C-j>"] = "<Down>",
+    ["<C-k>"] = "<Up>",
+    ["<C-l>"] = "<Right>",
+  }
+
+  for key, action in pairs(nav_keys) do
+    -- 检查现有映射
+    -- local existing = vim.fn.maparg(key, "i", false, true)
+    -- if existing.lhs ~= "" then
+    --   vim.notify(string.format("强制覆盖 %s (原为: %s)", key, existing.desc or "未知"), vim.log.levels.INFO)
+    -- end
+
+    -- 强制删除并重新设置
+    pcall(vim.keymap.del, "i", key)
+    vim.keymap.set("i", key, action, {
+      desc = "Navigate " .. action:gsub("[<>]", ""):lower(),
+      noremap = true,
+      silent = true,
+    })
+  end
+
+  print("✅ 插入模式导航键设置完成")
+end
+
+-- 立即执行
+setup_insert_navigation()
+
 vim.o.expandtab = true
 -- vim.o.tabstop = 4
 -- vim.o.softtabstop = 4

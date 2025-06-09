@@ -9,3 +9,6 @@ vim.g.lazyvim_python_ruff = "ruff"
 
 vim.opt.number = true -- 显示绝对行号
 vim.opt.relativenumber = false -- 关闭相对行号（如果不需要）
+
+
+vim.g.autoformat = false
