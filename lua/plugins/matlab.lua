@@ -1,3 +1,8 @@
+-- 只在 Windows 下启用 MATLAB 插件
+if vim.fn.has("win32") == 0 and vim.fn.has("win64") == 0 then
+  return {}
+end
+
 local function get_matlab_install_path()
   local handle = io.popen("where matlab")
   if handle then
